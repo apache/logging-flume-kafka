@@ -1,0 +1,27 @@
+Apache Flume Kafka 2.0.0
+
+CONTENTS
+1. What is Apache Flume Kafka
+2. Major changes in this Release
+3. How to Get Involved
+4. How to Report Issues
+
+1. What is Apache Flume Kafka
+Flume is a distributed, reliable, and available service for
+efficiently collecting, aggregating, and moving large amounts of event
+data. Flume Kafka provides a Channel, Source, and Sink for publishing
+and consuming events to and from Kafka..
+
+2. Major changes in this Release
+For a detailed list of changes, please see the CHANGELOG file included
+in this distribution.
+
+3. How to Get Involved
+The Apache Flume project really needs and appreciates any contributions,
+including documentation help, source code and feedback. If you are interested
+in contributing, please visit:
+https://cwiki.apache.org/confluence/display/FLUME/How+to+Contribute
+
+4. How to Report Issues
+The Apache Flume Spring Boot project uses GitHub issues for issue tracking. Please see
+https://github.com/apache/flume-spring-boot/issues
