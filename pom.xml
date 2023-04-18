@@ -42,7 +42,7 @@ limitations under the License.
     <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
     <flume-bom.version>1.11.1-SNAPSHOT</flume-bom.version>
     <junit.version>4.13.2</junit.version>
-    <kafka.version>3.3.1</kafka.version>
+    <kafka.version>3.4.0</kafka.version>
     <log4j.version>2.20.0</log4j.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
