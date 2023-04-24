@@ -23,7 +23,7 @@ notifications:
   jira_options: link label
 github:
   description: "Apache Flume Kafka contains the Flume components that interact with Kafka."
-  homepage: https://logging.apache.org/flume/
+  homepage: https://flume.apache.org/
   features:
     issues: true
   del_branch_on_merge: true

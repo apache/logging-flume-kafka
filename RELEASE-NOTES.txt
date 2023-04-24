@@ -10,7 +10,7 @@ CONTENTS
 Flume is a distributed, reliable, and available service for
 efficiently collecting, aggregating, and moving large amounts of event
 data. Flume Kafka provides a Channel, Source, and Sink for publishing
-and consuming events to and from Kafka..
+and consuming events to and from Kafka.
 
 2. Major changes in this Release
 For a detailed list of changes, please see the CHANGELOG file included
