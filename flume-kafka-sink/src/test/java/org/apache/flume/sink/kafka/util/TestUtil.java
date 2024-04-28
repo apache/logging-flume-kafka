@@ -109,7 +109,7 @@ public class TestUtil {
     logger.info("Starting kafka server.");
     try {
       //load properties
-      zkProperties.load(Class.class.getResourceAsStream(
+      zkProperties.load(TestUtil.class.getResourceAsStream(
           "/zookeeper.properties"));
 
       //start local Zookeeper
@@ -120,7 +120,7 @@ public class TestUtil {
       logger.info("ZooKeeper instance is successfully started on port " +
           zkLocalPort);
 
-      kafkaProperties.load(Class.class.getResourceAsStream(
+      kafkaProperties.load(TestUtil.class.getResourceAsStream(
           "/kafka-server.properties"));
       // override the Zookeeper url.
       kafkaProperties.setProperty("zookeeper.connect", getZkUrl());
