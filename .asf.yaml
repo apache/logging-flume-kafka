@@ -19,7 +19,7 @@
 notifications:
   # GitHub already provides notifications for PRs and issues.
   # Please don't duplicate that noise here!
-  commits: commits@flume.apache.org
+  commits: commits@logging.apache.org
   jira_options: link label
 github:
   description: "Apache Flume Kafka contains the Flume components that interact with Kafka."
