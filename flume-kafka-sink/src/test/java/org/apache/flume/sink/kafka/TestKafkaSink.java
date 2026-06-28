@@ -93,6 +93,7 @@ public class TestKafkaSink {
         topicsList.add(TestConstants.CUSTOM_TOPIC);
         topicsList.add(TestConstants.TRANSACTIONS_TOPIC);
         topicsList.add(TestConstants.HEADER_1_VALUE + "-topic");
+        testUtil.createTopics(topicsList, 1);
         testUtil.initTopicList(topicsList);
     }
 
@@ -677,7 +678,7 @@ public class TestKafkaSink {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", testUtil.getKafkaServerUrl());
-        props.put("group.id", "group_1");
+        props.put("group.id", "partition-test-" + java.util.UUID.randomUUID());
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");
