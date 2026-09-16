@@ -1,7 +1,8 @@
+#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
+# The ASF licenses this file to you under the Apache License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at
 #
@@ -12,6 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
 # `.asf.yaml` is a branch-specific YAML configuration file for Git repositories to control features such as notifications, GitHub settings, etc.
 # See its documentation for details: https://cwiki.apache.org/confluence/display/INFRA/Git+-+.asf.yaml+features
@@ -20,15 +22,13 @@ notifications:
   # GitHub already provides notifications for PRs and issues.
   # Please don't duplicate that noise here!
   commits: commits@logging.apache.org
-  jira_options: link label
+  issues: notifications@logging.apache.org
+  pullrequests: notifications@logging.apache.org
+  pullrequests_bot_dependabot: robots@logging.apache.org
+  discussions: dev@logging.apache.org
 github:
   description: "Apache Flume Kafka contains the Flume components that interact with Kafka."
   homepage: https://flume.apache.org/
-  features:
-    issues: true
-  del_branch_on_merge: true
-  autolink_jira:
-    - FLUME
   labels:
     - apache
     - api
@@ -36,5 +36,26 @@ github:
     - jvm
     - library
     - flume
+
+  # Pull Request settings:
+  # https://github.com/apache/infrastructure-asfyaml#pull-request-settings
+  pull_requests:
+    # allow auto-merge
+    allow_auto_merge: true
+    # enable updating head branches of pull requests
+    allow_update_branch: true
+    # auto-delete head branches after being merged
+    del_branch_on_merge: true
+
+  # Enforce squashing while merging PRs.
+  # Otherwise, the git log gets polluted severely.
+  enabled_merge_buttons:
+    squash: true
+    merge: false
+    rebase: false
+
+  features:
+    issues: true
+
   protected_branches:
     main: {}
