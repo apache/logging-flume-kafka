@@ -33,10 +33,9 @@ Apache Flume Kafka is open-sourced under the Apache Software Foundation License 
 
 ## Documentation
 
-Documentation is included in the binary distribution under the docs directory.
-In source form, it can be found in the flume-ng-doc directory.
+Documentation is included in the https://flume.apache.org/releases/content/2.0.0/FlumeUserGuide.html[Flume User Guide]
 
-The Flume 1.x guide and FAQ are available here:
+The Flume guide and FAQ are available here:
 
 * https://cwiki.apache.org/FLUME
 * https://cwiki.apache.org/confluence/display/FLUME/Getting+Started
@@ -48,11 +47,11 @@ The Flume 1.x guide and FAQ are available here:
 
 Bug and Issue tracker.
 
-* https://github.com/apache/flume-kafka/issues
+* https://github.com/apache/logging-flume-kafka/issues
 
 ## Compiling Flume Kafka
 
 Compiling Flume Spring Boot requires the following tools:
 
-* Oracle Java JDK 8
+* Oracle Java JDK 17
 * Apache Maven 3.x
