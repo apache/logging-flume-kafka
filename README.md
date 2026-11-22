@@ -33,7 +33,7 @@ Apache Flume Kafka is open-sourced under the Apache Software Foundation License 
 
 ## Documentation
 
-Documentation is included in the [Flume User Guide]https://flume.apache.org/releases/content/2.0.0/FlumeUserGuide.html
+Documentation is included in the [Flume User Guide](https://flume.apache.org/releases/content/2.0.0/FlumeUserGuide.html)
 
 The Flume guide and FAQ are available here:
 
