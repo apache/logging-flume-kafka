@@ -1,53 +1,106 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
+ * The ASF licenses this file to you under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * limitations under the License.
  */
-
 package org.apache.flume.sink.kafka.util;
 
-import kafka.server.KafkaConfig;
-import kafka.server.KafkaServer;
-import kafka.utils.TestUtils;
-import org.apache.kafka.common.utils.Time;
-
-import java.io.IOException;
+import java.io.File;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
+import kafka.server.BrokerServer;
+import org.apache.kafka.common.network.ListenerName;
+import org.apache.kafka.common.security.auth.SecurityProtocol;
+import org.apache.kafka.common.test.KafkaClusterTestKit;
+import org.apache.kafka.common.test.TestKitNodes;
 
-/**
- * A local Kafka server for running unit tests.
- * Reference: https://gist.github.com/fjavieralba/7930018/
- */
 public class KafkaLocal {
 
-  public KafkaServer kafka;
-  public ZooKeeperLocal zookeeper;
+    private static final String CONTROLLER_LISTENER_NAME = "CONTROLLER";
+    private static final String PLAINTEXT_LISTENER_NAME = "PLAINTEXT";
+    private static final String SSL_LISTENER_NAME = "SSL";
 
-  public KafkaLocal(Properties kafkaProperties) throws IOException, InterruptedException {
-    KafkaConfig kafkaConfig = KafkaConfig.fromProps(kafkaProperties);
+    private final KafkaClusterTestKit kafka;
+    private String bootstrapServers;
+    private String bootstrapSslServers;
 
-    // start local kafka broker
-    kafka = TestUtils.createServer(kafkaConfig, Time.SYSTEM);
-  }
+    public KafkaLocal(Properties kafkaProperties) throws Exception {
+        File baseDirectory = new File("target/kafka-sink-cluster-" + UUID.randomUUID()).getAbsoluteFile();
+        TestKitNodes nodes = new TestKitNodes.Builder()
+                .setCombined(true)
+                .setNumControllerNodes(1)
+                .setNumBrokerNodes(1)
+                .setBaseDirectory(baseDirectory.toPath())
+                .setBrokerListenerName(ListenerName.normalised(PLAINTEXT_LISTENER_NAME))
+                .setBrokerSecurityProtocol(SecurityProtocol.PLAINTEXT)
+                .setControllerListenerName(ListenerName.normalised(CONTROLLER_LISTENER_NAME))
+                .setControllerSecurityProtocol(SecurityProtocol.PLAINTEXT)
+                .build();
 
-  public void start() throws Exception {
-    kafka.startup();
-  }
+        KafkaClusterTestKit.Builder builder = new KafkaClusterTestKit.Builder(nodes)
+                .setConfigProp(
+                        "listeners",
+                        PLAINTEXT_LISTENER_NAME + "://localhost:0,"
+                                + SSL_LISTENER_NAME + "://localhost:0,"
+                                + CONTROLLER_LISTENER_NAME + "://localhost:0")
+                .setConfigProp(
+                        "listener.security.protocol.map",
+                        PLAINTEXT_LISTENER_NAME + ":PLAINTEXT,"
+                                + SSL_LISTENER_NAME + ":SSL,"
+                                + CONTROLLER_LISTENER_NAME + ":PLAINTEXT")
+                .setConfigProp("inter.broker.listener.name", PLAINTEXT_LISTENER_NAME)
+                .setConfigProp("controller.listener.names", CONTROLLER_LISTENER_NAME)
+                .setConfigProp("offsets.topic.replication.factor", "1")
+                .setConfigProp("transaction.state.log.replication.factor", "1")
+                .setConfigProp("transaction.state.log.min.isr", "1")
+                .setConfigProp("transaction.state.log.num.partitions", "1")
+                .setConfigProp("auto.create.topics.enable", "false");
+        if (kafkaProperties != null) {
+            for (Map.Entry<Object, Object> entry : kafkaProperties.entrySet()) {
+                builder.setConfigProp(String.valueOf(entry.getKey()), entry.getValue());
+            }
+        }
+        kafka = builder.build();
+    }
 
-  public void stop() {
-    kafka.shutdown();
-  }
+    public void start() throws Exception {
+        kafka.format();
+        kafka.startup();
+        kafka.waitForReadyBrokers();
+        bootstrapServers = kafka.bootstrapServers();
+        bootstrapSslServers = "localhost:" + getBoundPort(SSL_LISTENER_NAME);
+    }
 
+    public void stop() {
+        try {
+            kafka.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Error stopping embedded Kafka cluster", e);
+        }
+    }
+
+    public String getBootstrapServers() {
+        return bootstrapServers;
+    }
+
+    public String getBootstrapSslServers() {
+        return bootstrapSslServers;
+    }
+
+    private int getBoundPort(String listenerName) {
+        BrokerServer broker = kafka.brokers().values().iterator().next();
+        return broker.boundPort(ListenerName.normalised(listenerName));
+    }
 }
