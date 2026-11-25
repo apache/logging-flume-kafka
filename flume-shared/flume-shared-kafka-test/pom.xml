@@ -20,9 +20,9 @@
   <parent>
     <groupId>org.apache.flume</groupId>
     <artifactId>flume-shared</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
+    <relativePath>..</relativePath>
   </parent>
-  <groupId>org.apache.flume</groupId>
   <artifactId>flume-shared-kafka-test</artifactId>
   <name>Flume Shared Kafka Test Utils</name>
 
@@ -36,17 +36,12 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.flume</groupId>
-      <artifactId>flume-ng-sdk</artifactId>
+      <artifactId>flume-sdk</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.apache.flume</groupId>
-      <artifactId>flume-ng-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.flume</groupId>
-      <artifactId>flume-ng-configuration</artifactId>
+      <artifactId>flume-core</artifactId>
     </dependency>
 
     <dependency>

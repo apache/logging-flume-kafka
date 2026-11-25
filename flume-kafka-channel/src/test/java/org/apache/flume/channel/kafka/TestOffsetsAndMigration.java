@@ -17,8 +17,8 @@
 package org.apache.flume.channel.kafka;
 
 import java.util.Arrays;
-import org.apache.flume.Event;
 import org.apache.flume.Transaction;
+import org.apache.flume.event.Event;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.Assert;

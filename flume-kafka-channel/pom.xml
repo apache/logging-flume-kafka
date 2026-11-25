@@ -20,10 +20,10 @@
   <parent>
     <groupId>org.apache.flume</groupId>
     <artifactId>flume-kafka-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
+    <relativePath>..</relativePath>
   </parent>
 
-  <groupId>org.apache.flume</groupId>
   <artifactId>flume-kafka-channel</artifactId>
 
   <properties>
@@ -35,12 +35,21 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.flume</groupId>
-      <artifactId>flume-ng-core</artifactId>
+      <groupId>biz.aQute.bnd</groupId>
+      <artifactId>biz.aQute.bnd.annotation</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flume</groupId>
-      <artifactId>flume-ng-sdk</artifactId>
+      <artifactId>flume-sdk-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flume</groupId>
+      <artifactId>flume-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flume</groupId>
+      <artifactId>flume-sdk</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flume</groupId>
@@ -48,7 +57,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flume</groupId>
-      <artifactId>flume-rpc-avro</artifactId>
+      <artifactId>flume-avro-client</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.flume</groupId>
@@ -79,7 +88,7 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
+      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
