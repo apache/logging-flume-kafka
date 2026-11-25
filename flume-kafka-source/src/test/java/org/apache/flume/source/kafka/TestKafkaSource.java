@@ -72,6 +72,7 @@ import org.apache.flume.exception.ChannelException;
 import org.apache.flume.instrumentation.SourceCounter;
 import org.apache.flume.lifecycle.LifecycleState;
 import org.apache.flume.sdk.test.Whitebox;
+import org.apache.flume.shared.kafka.test.SkipOnWindows;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -86,6 +87,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -94,6 +96,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TestKafkaSource {
+    @ClassRule
+    public static final SkipOnWindows SKIP_ON_WINDOWS = new SkipOnWindows();
+
     private static final Logger log = LoggerFactory.getLogger(TestKafkaSource.class);
 
     private KafkaSource kafkaSource;

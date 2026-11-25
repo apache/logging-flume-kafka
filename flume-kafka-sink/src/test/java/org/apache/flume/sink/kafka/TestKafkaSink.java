@@ -69,6 +69,7 @@ import org.apache.flume.sdk.test.Whitebox;
 import org.apache.flume.shared.kafka.test.KafkaPartitionTestUtil;
 import org.apache.flume.shared.kafka.test.PartitionOption;
 import org.apache.flume.shared.kafka.test.PartitionTestScenario;
+import org.apache.flume.shared.kafka.test.SkipOnWindows;
 import org.apache.flume.sink.kafka.util.TestUtil;
 import org.apache.kafka.clients.admin.TransactionListing;
 import org.apache.kafka.clients.admin.TransactionState;
@@ -81,12 +82,16 @@ import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 /**
  * Unit tests for Kafka Sink
  */
 public class TestKafkaSink {
+
+    @ClassRule
+    public static final SkipOnWindows SKIP_ON_WINDOWS = new SkipOnWindows();
 
     private static final TestUtil testUtil = TestUtil.getInstance();
     private static List<String> topicsList;

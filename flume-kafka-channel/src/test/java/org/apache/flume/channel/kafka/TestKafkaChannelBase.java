@@ -42,13 +42,18 @@ import org.apache.flume.Transaction;
 import org.apache.flume.conf.Configurables;
 import org.apache.flume.event.Event;
 import org.apache.flume.event.EventBuilder;
+import org.apache.flume.shared.kafka.test.SkipOnWindows;
 import org.apache.flume.sink.kafka.util.TestUtil;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 
 public class TestKafkaChannelBase {
+
+    @ClassRule
+    public static final SkipOnWindows SKIP_ON_WINDOWS = new SkipOnWindows();
 
     static TestUtil testUtil = TestUtil.getInstance();
     String topic = null;
