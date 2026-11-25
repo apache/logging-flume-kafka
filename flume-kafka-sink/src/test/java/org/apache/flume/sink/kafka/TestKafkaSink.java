@@ -17,7 +17,15 @@
 package org.apache.flume.sink.kafka;
 
 import static org.apache.flume.shared.kafka.KafkaSSLUtil.SSL_DISABLE_FQDN_CHECK;
-import static org.apache.flume.sink.kafka.KafkaSinkConstants.*;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.AVRO_EVENT;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.BATCH_SIZE;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.BOOTSTRAP_SERVERS_CONFIG;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.DEFAULT_KEY_SERIALIZER;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.DEFAULT_TOPIC;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.KAFKA_PREFIX;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.KAFKA_PRODUCER_PREFIX;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.TOPIC_CONFIG;
+import static org.apache.flume.sink.kafka.KafkaSinkConstants.TRANSACTIONAL_ID;
 import static org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG;
 import static org.apache.kafka.clients.producer.ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG;
 import static org.apache.kafka.common.config.SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG;
@@ -48,19 +56,21 @@ import org.apache.avro.util.Utf8;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.flume.Channel;
 import org.apache.flume.Context;
-import org.apache.flume.Event;
 import org.apache.flume.EventDeliveryException;
 import org.apache.flume.Sink;
 import org.apache.flume.Transaction;
+import org.apache.flume.avro.AvroFlumeEvent;
 import org.apache.flume.channel.MemoryChannel;
 import org.apache.flume.conf.Configurables;
+import org.apache.flume.event.Event;
 import org.apache.flume.event.EventBuilder;
 import org.apache.flume.instrumentation.SinkCounter;
+import org.apache.flume.sdk.test.Whitebox;
 import org.apache.flume.shared.kafka.test.KafkaPartitionTestUtil;
 import org.apache.flume.shared.kafka.test.PartitionOption;
 import org.apache.flume.shared.kafka.test.PartitionTestScenario;
+import org.apache.flume.shared.kafka.test.SkipOnWindows;
 import org.apache.flume.sink.kafka.util.TestUtil;
-import org.apache.flume.source.avro.AvroFlumeEvent;
 import org.apache.kafka.clients.admin.TransactionListing;
 import org.apache.kafka.clients.admin.TransactionState;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -72,13 +82,16 @@ import org.apache.kafka.common.header.internals.RecordHeaders;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
 
 /**
  * Unit tests for Kafka Sink
  */
 public class TestKafkaSink {
+
+    @ClassRule
+    public static final SkipOnWindows SKIP_ON_WINDOWS = new SkipOnWindows();
 
     private static final TestUtil testUtil = TestUtil.getInstance();
     private static List<String> topicsList;
@@ -544,7 +557,7 @@ public class TestKafkaSink {
         String sampleProducerVal = "snappy";
 
         Context context = prepareDefaultContext();
-        context.put(KafkaSinkConstants.KAFKA_PRODUCER_PREFIX + sampleProducerProp, sampleProducerVal);
+        context.put(KAFKA_PRODUCER_PREFIX + sampleProducerProp, sampleProducerVal);
 
         KafkaSink kafkaSink = new KafkaSink();
 

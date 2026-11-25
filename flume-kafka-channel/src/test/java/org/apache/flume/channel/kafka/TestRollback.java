@@ -19,7 +19,7 @@ package org.apache.flume.channel.kafka;
 import java.util.List;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.Executors;
-import org.apache.flume.Event;
+import org.apache.flume.event.Event;
 import org.junit.Test;
 
 public class TestRollback extends TestKafkaChannelBase {

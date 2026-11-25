@@ -19,6 +19,8 @@ package org.apache.flume.sink.kafka;
 import static org.apache.flume.shared.kafka.KafkaSSLUtil.SSL_DISABLE_FQDN_CHECK;
 import static org.apache.flume.shared.kafka.KafkaSSLUtil.isSSLEnabled;
 
+import aQute.bnd.annotation.Resolution;
+import aQute.bnd.annotation.spi.ServiceProvider;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import java.io.ByteArrayOutputStream;
@@ -39,18 +41,21 @@ import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.flume.Channel;
 import org.apache.flume.Context;
-import org.apache.flume.Event;
 import org.apache.flume.EventDeliveryException;
+import org.apache.flume.Sink;
 import org.apache.flume.Transaction;
+import org.apache.flume.avro.AvroFlumeEvent;
 import org.apache.flume.conf.BatchSizeSupported;
 import org.apache.flume.conf.Configurable;
 import org.apache.flume.conf.ConfigurationException;
 import org.apache.flume.conf.LogPrivacyUtil;
+import org.apache.flume.event.Event;
 import org.apache.flume.formatter.output.BucketPath;
 import org.apache.flume.instrumentation.kafka.KafkaSinkCounter;
 import org.apache.flume.shared.kafka.KafkaSSLUtil;
 import org.apache.flume.sink.AbstractSink;
-import org.apache.flume.source.avro.AvroFlumeEvent;
+import org.apache.flume.spi.AbstractComponentProvider;
+import org.apache.flume.spi.SinkProvider;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -466,6 +471,17 @@ public class KafkaSink extends AbstractSink implements Configurable, BatchSizeSu
             charSeqMap.put(entry.getKey(), entry.getValue());
         }
         return charSeqMap;
+    }
+
+    /**
+     * Provides the {@code kafka} sink type.
+     */
+    @ServiceProvider(value = SinkProvider.class, resolution = Resolution.OPTIONAL)
+    public static final class Provider extends AbstractComponentProvider<Sink> implements SinkProvider {
+
+        public Provider() {
+            super("kafka", KafkaSink.class);
+        }
     }
 }
 

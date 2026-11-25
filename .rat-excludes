@@ -1,0 +1,5 @@
+.rat-excludes
+**/src/test/resources/**
+**/*.avsc
+**/*.avro
+**/src/main/thrift/aslv2

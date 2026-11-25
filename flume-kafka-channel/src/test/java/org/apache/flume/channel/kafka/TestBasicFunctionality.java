@@ -27,15 +27,15 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.apache.flume.Context;
-import org.apache.flume.Event;
 import org.apache.flume.Transaction;
 import org.apache.flume.conf.Configurables;
+import org.apache.flume.event.Event;
 import org.apache.flume.instrumentation.kafka.KafkaChannelCounter;
+import org.apache.flume.sdk.test.Whitebox;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
 
 public class TestBasicFunctionality extends TestKafkaChannelBase {
 
